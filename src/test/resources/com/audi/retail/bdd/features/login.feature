@@ -4,7 +4,6 @@ As a registered user
 In order to Sign In 
 I want to login 
 
-@Hema
 Scenario Outline: Test Login 
 	Given I go to ToyRUs Home page 
 	When I click on Sign In link 
