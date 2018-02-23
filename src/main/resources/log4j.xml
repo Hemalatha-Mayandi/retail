@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="${project.artifactId}" status="INFO" shutdownHook="disable">
+
+    <properties>
+        <property name="message_pattern">
+            <![CDATA[%d{ISO8601} [%t] %-80.80logger %5level  -  %message%n%xThrowable]]></property>
+    </properties>
+
+    <appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="${message_pattern}"/>
+        </Console>
+    </appenders>
+
+    <loggers>
+        <root level="WARN">
+            <appender-ref ref="STDOUT"/>
+        </root>
+
+        <logger name="com.audi.retail" level="INFO"/>
+    </loggers>
+
+</configuration>

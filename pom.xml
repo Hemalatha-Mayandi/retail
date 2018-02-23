@@ -1,0 +1,186 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.audi</groupId>
+	<artifactId>retail</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>retail</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<cucumber-jvm.version>1.2.5</cucumber-jvm.version>
+		<selenium.version>2.53.1</selenium.version>
+		<junit.version>4.12</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>repo.bodar.com</id>
+			<url>http://repo.bodar.com</url>
+		</repository>
+		<repository>
+			<id>sonatype-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+		</repository>
+		<repository>
+			<id>snapshot</id>
+			<name>snapshot repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>The Buzz Media Maven Repository</id>
+			<url>http://maven.thebuzzmedia.com</url>
+		</repository>
+	</repositories>
+	<build>
+		<resources>
+			<resource>
+				<directory>config</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<perCoreThreadCount>false</perCoreThreadCount>
+					<threadCount>${junit.threadCount}</threadCount>
+					<parallel>${junit.parallel}</parallel>
+					<includes>
+						<include>${include.tests}</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>failsafe-integration-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<!-- DisABLED FAILSAFE VERIFY WHILE TESTING POSH REPORTER <execution> 
+						<id>failsafe-verify</id> <phase>verify</phase> <goals> <goal>verify</goal> 
+						</goals> </execution> -->
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.14</version>
+				<configuration>
+					<!-- Disable unit tests -->
+					<skip>true</skip>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<!-- <plugin> <groupId>net.masterthought</groupId> <artifactId>maven-cucumber-reporting</artifactId> 
+				<version>0.0.6</version> <executions> <execution> <id>execution</id> <phase>verify</phase> 
+				<goals> <goal>generate</goal> </goals> <configuration> <projectName>TESCO-Direct</projectName> 
+				<outputDirectory>${project.build.directory}/cucumber-html-reports</outputDirectory> 
+				<jsonLocation>${project.build.directory}Cucumber.json</jsonLocation> <buildNumber></buildNumber> 
+				<enableFlashCharts>true</enableFlashCharts> <skippedFails>true</skippedFails> 
+				<undefinedFails>true</undefinedFails> </configuration> </execution> </executions> 
+				</plugin> -->
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>ChromeRunner</id>
+			<properties>
+				<include.tests>
+					**/*BDDChromeRunner.java
+				</include.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>IERunner</id>
+			<properties>
+				<include.tests>
+					**/*IERunner.java
+				</include.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>FirefoxRunner</id>
+			<properties>
+				<include.tests>
+					**/*BDDFirefoxRunner.java
+				</include.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>parallel</id>
+			<properties>
+				<include.tests>**/*RunnerIT.java</include.tests>
+				<junit.threadCount>3</junit.threadCount>
+				<junit.parallel>classes</junit.parallel>
+			</properties>
+		</profile>
+
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber-jvm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber-jvm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-support</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+			<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+	</dependencies>
+</project>
